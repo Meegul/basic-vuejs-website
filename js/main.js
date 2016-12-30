@@ -59,9 +59,9 @@ Vue.component("title-bar", {
 
 const demoTemplate = `
 <div class="demo">
-    <p>{{ text }}</p>
+    <h2>{{ text }}</h2>
     <input v-model="text">
-    <button v-on:click="text = text.split('').reverse().join('')">
+    <button v-on:click="text = text.split('').reverse().join('')">Reverse</button>
 </div>
 `;
 
@@ -74,8 +74,6 @@ Vue.component("demo", {
 const contentTemplate = `
 <div class="content">
     <demo v-bind:initial-text="demoText"></demo>
-    <p>{{ message }}</p>
-    <input v-model="message"></input>
     <ol>
         <template v-for="item in textList">
             <li v-bind:card="item">{{ item.text }}</li>
@@ -87,12 +85,12 @@ const contentTemplate = `
 
 Vue.component("app-content", {
     template: contentTemplate,
-    props: ["demoText", "message", "textList"],
+    props: ["initialDemoText", "initialMessage", "initialTextList"],
     data: function() {
         return {
-            demoText: this.demoText,
-            message: this.message,
-            textList: this.textList,
+            demoText: this.initialDemoText,
+            message: this.initialMessage,
+            textList: this.initialTextList,
         };
     },
 });
@@ -119,7 +117,6 @@ const app = new Vue({
             { text: "Asah, dude. 17" },
             { text: "Asah, dude. 18" },
         ],
-        message: "Hello Vue!",
         demoText: "Hello.",
-    }
+    },
 });
