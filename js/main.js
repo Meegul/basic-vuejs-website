@@ -85,11 +85,10 @@ const contentTemplate = `
 
 Vue.component("app-content", {
     template: contentTemplate,
-    props: ["initialDemoText", "initialMessage", "initialTextList"],
+    props: ["initialDemoText", "initialTextList"],
     data: function() {
         return {
             demoText: this.initialDemoText,
-            message: this.initialMessage,
             textList: this.initialTextList,
         };
     },
