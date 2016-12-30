@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    font-family: "arial", sans-serif;
+}
+
+.content {
+    margin-top: calc(2em + 4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word;
+}
+
+.button {
+    width: 100%;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+.active {
+    color: #FF0000
+}
+
+.inactive {
+    color: #CCC;
+}
+
+.titlebar {
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+}
+
+.menu-text {
+    margin: 0;
+}
+
+.menu-item-text {
+    color: #CCC;
+}
+
+.app-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #CCC;
+}
