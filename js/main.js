@@ -20,71 +20,106 @@ Vue.component("menu-item", {
     template: menuItem,
 });
 
-const title = `
+const titleTemplate = `
 <div class="titlebar">
-    <div class="button" v-for="item in menuItems">
-        <h1 class="menu-text" v-on:click="click(item.id)" v-bind:class="{ 'active': elements[item.id], 'inactive': !elements[item.id] }">{{ item.text }}</h1>
+    <div class="button" v-for="(item, index) in menuItems">
+        <h1 class="menu-text" v-on:click="click(index)" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
         <template v-for="sub in item.subMenu">
-            <menu-item class="menu-item-text" :text="sub.text" :active="elements[item.id]"></menu-item>
+            <menu-item class="menu-item-text" :text="sub.text" :active="item.active"></menu-item>
         </template>
     </div>
 </div>
 `;
-const activeObject = {
-    elements: {
-        a: false,
-        b: false,
-        c: false,
-    },
-    click: (which) => {
-        if (activeObject.elements[which]) {
-            activeObject.elements[which] = false;
-            return;
-        }
-        Object.keys(activeObject.elements).forEach((key) => activeObject.elements[key] = false);
-        activeObject.elements[which] = true;
-    },
-    menuItems: [
-        { id: "a", text: "kek A", subMenu: [{ text: "hi1" }, { text: "hi2" }] },
-        { id: "b", text: "kek B", subMenu: [{ text: "hi1" }, { text: "hi2" }] },
-        { id: "c", text: "kek C", subMenu: [{ text: "hi1" }, { text: "hi2" }] },
-    ],
-};
 
 Vue.component("title-bar", {
-    template: title,
-    data: () => {
-        return activeObject;
-    }
+    template: titleTemplate,
+    data: function() {
+        return {
+            menuItems: [
+                { text: "kek A", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
+                { text: "kek B", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
+                { text: "kek C", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] }
+            ],
+        };
+    },
+    methods: {
+        click: function(index) {
+            //If it's already active, set to inactive and return
+            if (this.menuItems[index].active) {
+                this.menuItems[index].active = false;
+                return;
+            } else {
+                //It's not active. Set all others to inactive and activate
+                this.menuItems.forEach((on) => { on.active = false });
+                this.menuItems[index].active = true;
+            }
+        },
+    },
 });
 
-Vue.component("card-item", {
-    props: ["card"],
-    template: "<li>{{ card.text }}</li>"
+const demoTemplate = `
+<div class="demo">
+    <p>{{ text }}</p>
+    <input v-model="text">
+    <button v-on:click="text = text.split('').reverse().join('')">
+</div>
+`;
+
+Vue.component("demo", {
+    props: ["initialText"],
+    data: function() { return { text: this.initialText }; },
+    template: demoTemplate,
+});
+
+const contentTemplate = `
+<div class="content">
+    <demo v-bind:initial-text="demoText"></demo>
+    <p>{{ message }}</p>
+    <input v-model="message"></input>
+    <ol>
+        <template v-for="item in textList">
+            <li v-bind:card="item">{{ item.text }}</li>
+            <input v-model="item.text"></input>
+        </template>
+    </ol>
+</div>
+`;
+
+Vue.component("app-content", {
+    template: contentTemplate,
+    props: ["demoText", "message", "textList"],
+    data: function() {
+        return {
+            demoText: this.demoText,
+            message: this.message,
+            textList: this.textList,
+        };
+    },
 });
 
 const app = new Vue({
     el: "#app",
     data: {
-        cardList: [
-            { text: "Asah, dude. 1", isActive: false },
-            { text: "Asah, dude. 2", isActive: false },
-            { text: "Asah, dude. 3", isActive: false },
-            { text: "Asah, dude. 4", isActive: false },
-            { text: "Asah, dude. 6", isActive: false },
-            { text: "Asah, dude. 7", isActive: false },
-            { text: "Asah, dude. 8", isActive: false },
-            { text: "Asah, dude. 9", isActive: false },
-            { text: "Asah, dude. 10", isActive: false },
-            { text: "Asah, dude. 11", isActive: false },
-            { text: "Asah, dude. 12", isActive: false },
-            { text: "Asah, dude. 13", isActive: false },
-            { text: "Asah, dude. 14", isActive: false },
-            { text: "Asah, dude. 15", isActive: false },
-            { text: "Asah, dude. 16", isActive: false },
-            { text: "Asah, dude. 17", isActive: false },
-            { text: "Asah, dude. 18", isActive: false },
+        textList: [
+            { text: "Asah, dude. 1" },
+            { text: "Asah, dude. 2" },
+            { text: "Asah, dude. 3" },
+            { text: "Asah, dude. 4" },
+            { text: "Asah, dude. 6" },
+            { text: "Asah, dude. 7" },
+            { text: "Asah, dude. 8" },
+            { text: "Asah, dude. 9" },
+            { text: "Asah, dude. 10" },
+            { text: "Asah, dude. 11" },
+            { text: "Asah, dude. 12" },
+            { text: "Asah, dude. 13" },
+            { text: "Asah, dude. 14" },
+            { text: "Asah, dude. 15" },
+            { text: "Asah, dude. 16" },
+            { text: "Asah, dude. 17" },
+            { text: "Asah, dude. 18" },
         ],
         message: "Hello Vue!",
+        demoText: "Hello.",
     }
 });

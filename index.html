@@ -4,19 +4,9 @@
 <body>
     <div id="app">
         <title-bar></title-bar>
-        <div class="content">
-            <p>{{ message }}</p>
-            <input v-model="message"></input>
-            <ol>
-                <template v-for="item in cardList">
-                    <card-item v-bind:card="item" v-bind:class="{ active: item.isActive }"></card-item>
-                    <input v-model="item.text"></input>
-                </template>
-            </ol>
-        </div>
+        <app-content :demo-text="demoText" :message="message" :text-list="textList"></app-content>
         <app-footer></app-footer>
     </div>
     <script src="js/vue.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/async.js"></script>
 </body>
