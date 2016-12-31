@@ -10,22 +10,27 @@ Vue.component("app-footer", {
 });
 
 const menuItem = `
-<div class="menuItem" v-show="active">
-    <h1>{{ text }}</h1>
+<div class="dropdown-text" v-on:mouseenter="active=true" v-on:mouseleave="active=false" v-show="shown">
+    <h1 :class="{ 'active': active, 'inactive': !active }">{{ text }}</h1>
 </div>
 `;
 
 Vue.component("menu-item", {
-    props: ["active", "text"],
+    props: ["shown", "text"],
+    data: function() {
+        return {
+            active: false,
+        };
+    },
     template: menuItem,
 });
 
 const titleTemplate = `
 <div class="titlebar">
-    <div class="button" v-for="(item, index) in menuItems">
-        <h1 class="menu-text" v-on:click="click(index)" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
+    <div class="button" v-on:mouseenter="focus(index)" v-on:mouseleave="leave(index)" v-for="(item, index) in menuItems">
+        <h1 class="menu-text" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
         <template v-for="sub in item.subMenu">
-            <menu-item class="menu-item-text" :text="sub.text" :active="item.active"></menu-item>
+            <menu-item :text="sub.text" :shown="item.active"></menu-item>
         </template>
     </div>
 </div>
@@ -43,7 +48,7 @@ Vue.component("title-bar", {
         };
     },
     methods: {
-        click: function(index) {
+        focus: function(index) {
             //If it's already active, set to inactive and return
             if (this.menuItems[index].active) {
                 this.menuItems[index].active = false;
@@ -53,6 +58,10 @@ Vue.component("title-bar", {
                 this.menuItems.forEach((on) => { on.active = false });
                 this.menuItems[index].active = true;
             }
+        },
+        leave: function(index) {
+            if (this.menuItems[index].active)
+                this.menuItems[index].active = false;
         },
     },
 });
@@ -74,12 +83,10 @@ Vue.component("demo", {
 const contentTemplate = `
 <div class="content">
     <demo v-bind:initial-text="demoText"></demo>
-    <ol>
-        <template v-for="item in textList">
-            <li v-bind:card="item">{{ item.text }}</li>
-            <input v-model="item.text"></input>
-        </template>
-    </ol>
+    <template v-for="item in textList">
+        <li v-bind:card="item">{{ item.text }}</li>
+        <input v-model="item.text"></input>
+    </template>
 </div>
 `;
 
