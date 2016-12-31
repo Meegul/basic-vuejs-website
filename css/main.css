@@ -12,10 +12,6 @@ body {
     justify-content: space-between;
 }
 
-li {
-    padding: 0;
-}
-
 .content {
     margin-top: calc(4em);
     display: flex;
