@@ -26,8 +26,8 @@ Vue.component("menu-item", {
 });
 
 const titleTemplate = `
-<div class="titlebar">
-    <div class="button" v-on:mouseenter="focus(index)" v-on:mouseleave="leave(index)" v-for="(item, index) in menuItems">
+<div class="titlebar" :class="{ 'scrolled': scrolled, 'not-scrolled': !scrolled }">
+    <div class="button" v-on:scroll="testScroll()" v-on:mouseenter="focus(index)" v-on:mouseleave="leave(index)" v-for="(item, index) in menuItems">
         <h1 class="menu-text" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
         <template v-for="sub in item.subMenu">
             <menu-item :text="sub.text" :shown="item.active"></menu-item>
@@ -40,6 +40,7 @@ Vue.component("title-bar", {
     template: titleTemplate,
     data: function() {
         return {
+            scrolled: false,
             menuItems: [
                 { text: "kek A", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
                 { text: "kek B", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
@@ -63,6 +64,14 @@ Vue.component("title-bar", {
             if (this.menuItems[index].active)
                 this.menuItems[index].active = false;
         },
+        testScroll: function() {
+            this.scrolled = window.scrollY > 0;
+        },
+    },
+    mounted: function() {
+        this.$nextTick(function () {
+            window.addEventListener('scroll', this.testScroll);
+        });
     },
 });
 
