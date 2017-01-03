@@ -28,15 +28,14 @@ Vue.component("menu-item", {
 const titleTemplate = `
 <div class="titlebar" :class="{ 'scrolled': scrolled, 'not-scrolled': !scrolled }">
     <div class="button" v-on:scroll="testScroll()" v-on:mouseenter="focus(index)" v-on:mouseleave="leave(index)" v-for="(item, index) in menuItems">
-        <a class="embed-link" :href="item.href">
+        <a class="embed-link" :href="item.href" v-if="item.href">
             <h1 class="menu-text" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
         </a>
+        <h1 v-else class="menu-text" v-bind:class="{ 'active': item.active, 'inactive': !item.active }">{{ item.text }}</h1>
         <template v-for="sub in item.subMenu">
-            <div class="embed-link" v-if="sub.href">
-                <a class="embed-link" :href="sub.href">
-                    <menu-item :text="sub.text" :shown="item.active"></menu-item>
-                </a>
-            </div>
+            <a class="embed-link" :href="sub.href" v-if="sub.href">
+                <menu-item :text="sub.text" :shown="item.active"></menu-item>
+            </a>
             <div class="embed-link" v-else>
                  <menu-item :text="sub.text" :shown="item.active"></menu-item>
             </div>
@@ -132,17 +131,17 @@ const app = new Vue({
     el: "#app",
     data: {
         titleList: [
-            { text: "1", href: "http://google.com", active: false, subMenu: [
+            { text: "1", active: false, subMenu: [
                 { text: "sub1", href: "http://google.com" },
                 { text: "sub2" },
                 { text: "sub3" }
             ]},
-            { text: "2", href: "http://google.com", active: false, subMenu: [
+            { text: "2", active: false, subMenu: [
                 { text: "sub4" },
                 { text: "sub5" },
                 { text: "sub6" }
             ]},
-            { text: "3", href: "http://google.com", active: false, subMenu: [
+            { text: "3", active: false, subMenu: [
                 { text: "sub7" },
                 { text: "sub8" },
                 { text: "sub9" },
