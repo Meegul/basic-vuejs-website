@@ -133,7 +133,8 @@ const app = new Vue({
             { text: "3", active: false, subMenu: [
                 { text: "sub7" },
                 { text: "sub8" },
-                { text: "sub9" }
+                { text: "sub9" },
+                { text: "sub10" },
             ]},
         ],
         textList: [
