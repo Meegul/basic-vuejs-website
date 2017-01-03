@@ -37,15 +37,21 @@ const titleTemplate = `
 `;
 
 Vue.component("title-bar", {
-    template: titleTemplate,
-    data: function() {
-        return {
-            scrolled: false,
-            menuItems: [
+    props: {
+        initialMenuItems: {
+            type: Array,
+            default: [
                 { text: "kek A", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
                 { text: "kek B", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] },
                 { text: "kek C", active: false, subMenu: [{ text: "hi1" }, { text: "hi2" }] }
             ],
+        },
+    },
+    template: titleTemplate,
+    data: function() {
+        return {
+            scrolled: false,
+            menuItems: this.initialMenuItems,
         };
     },
     methods: {
@@ -113,6 +119,23 @@ Vue.component("app-content", {
 const app = new Vue({
     el: "#app",
     data: {
+        titleList: [
+            { text: "1", active: false, subMenu: [
+                { text: "sub1" },
+                { text: "sub2" },
+                { text: "sub3" }
+            ]},
+            { text: "2", active: false, subMenu: [
+                { text: "sub4" },
+                { text: "sub5" },
+                { text: "sub6" }
+            ]},
+            { text: "3", active: false, subMenu: [
+                { text: "sub7" },
+                { text: "sub8" },
+                { text: "sub9" }
+            ]},
+        ],
         textList: [
             { text: "Asah, dude. 1" },
             { text: "Asah, dude. 2" },

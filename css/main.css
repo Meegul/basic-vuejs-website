@@ -69,11 +69,11 @@ body {
     transition: all .2s ease-in-out;
 }
 
-.titlebar.scrolled {
+.titlebar.scrolled .button {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.titlebar.not-scrolled {
+.titlebar.not-scrolled .button {
     background-color: rgba(0, 0, 0, 0.9);
 }
 
