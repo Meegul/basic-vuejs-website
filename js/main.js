@@ -67,25 +67,14 @@ Vue.component("title-bar", {
     },
     methods: {
         focus: function(index) {
-            this.mouseOn = true;
-            this.menuItems.forEach((on) => on.active = false );
+            this.menuItems[index].mouseOn = true;
+            this.menuItems.forEach((on) => { on.active = false });
             this.menuItems[index].active = true;
-            /*
-            //If it's already active, set to inactive and return
-            if (this.menuItems[index].active) {
-                this.menuItems[index].active = false;
-                return;
-            } else {
-                //It's not active. Set all others to inactive and activate
-                this.menuItems.forEach((on) => { on.active = false });
-                this.menuItems[index].active = true;
-            }
-            */
         },
         leave: function(index) {
-            this.mouseOn = false;
+            this.menuItems[index].mouseOn = false;
             setTimeout(() => {
-                if (this.menuItems[index].active && !this.mouseOn)
+                if (this.menuItems[index].active && !this.menuItems[index].mouseOn)
                     this.menuItems[index].active = false;
             }, 500);
         },
