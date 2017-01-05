@@ -67,6 +67,10 @@ Vue.component("title-bar", {
     },
     methods: {
         focus: function(index) {
+            this.mouseOn = true;
+            this.menuItems.forEach((on) => on.active = false );
+            this.menuItems[index].active = true;
+            /*
             //If it's already active, set to inactive and return
             if (this.menuItems[index].active) {
                 this.menuItems[index].active = false;
@@ -76,10 +80,14 @@ Vue.component("title-bar", {
                 this.menuItems.forEach((on) => { on.active = false });
                 this.menuItems[index].active = true;
             }
+            */
         },
         leave: function(index) {
-            if (this.menuItems[index].active)
-                this.menuItems[index].active = false;
+            this.mouseOn = false;
+            setTimeout(() => {
+                if (this.menuItems[index].active && !this.mouseOn)
+                    this.menuItems[index].active = false;
+            }, 500);
         },
         testScroll: function() {
             this.scrolled = window.scrollY > 0;
@@ -131,17 +139,17 @@ const app = new Vue({
     el: "#app",
     data: {
         titleList: [
-            { text: "1", active: false, subMenu: [
+            { text: "1", active: false, mouseOn: false, subMenu: [
                 { text: "sub1", href: "http://google.com" },
                 { text: "sub2" },
                 { text: "sub3" }
             ]},
-            { text: "2", active: false, subMenu: [
+            { text: "2", active: false, mouseOn: false, subMenu: [
                 { text: "sub4" },
                 { text: "sub5" },
                 { text: "sub6" }
             ]},
-            { text: "3", active: false, subMenu: [
+            { text: "3", active: false, mouseOn: false, subMenu: [
                 { text: "sub7" },
                 { text: "sub8" },
                 { text: "sub9" },
